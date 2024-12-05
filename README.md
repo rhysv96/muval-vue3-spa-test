@@ -57,4 +57,4 @@ You will be evaluated on:
 
 Once you have completed your build of the project user requirements, with
 consideration of the evaluation criteria, save a zip of your revised code.
-Upload the Zip file to the Google Drive provide in your invitation email. Please address any issues to: <nicole@muval.com.au>
+Upload the Zip file to the Google Drive provide in your invitation email. Please send any issues to: <nicole@muval.com.au>
