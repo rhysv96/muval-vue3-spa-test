@@ -4,7 +4,7 @@ This is a clean Vue 3 project ready for you to set up a basic single-page
 application (SPA) to consume the API you built in the Laravel backend test.
 
 This test requires you to have already completed the Laravel backend test:
-https://github.com/muval-apps/backend-test
+<https://github.com/muval-apps/backend-test>
 
 ## Getting started
 
@@ -38,7 +38,7 @@ You will be evaluated on:
 
 1. **Quality of build**
     * Is the build following Vue 3 conventions?
-    * Is state management with Pinia being applied?
+    * Is state management with Pinia being utilised?
     * Have the project user requirements been met?
 2. **API integration**
     * Did you integrate the API endpoints?
@@ -46,9 +46,10 @@ You will be evaluated on:
     exposure of secure data?
 3. **Code readability**
     * Is the code clean and easy to understand?
-    * Has linting/formatting been applied?
+    * Has linting/formatting been run?
 4. **Aesthetic**
     * Is the layout reasonably clean?
+    * Are Tailwind utility classes applied to style your interfaces?
     * Is the application intuitive to use without requiring in-depth
     instructions?
 
