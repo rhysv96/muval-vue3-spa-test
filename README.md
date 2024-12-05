@@ -4,7 +4,7 @@ This is a clean Vue 3 project ready for you to set up a basic single-page
 application (SPA) to consume the API you built in the Laravel backend test.
 
 
-## Technical requirements
+## Getting started
 
 
 ### Environment setup
@@ -30,6 +30,8 @@ changes to the code.
 requirements to: nicole@muval.com.au
 
 
+## Test criteria
+
 ### Project user requirements
 
 The application you are building is a basic task management system with the
@@ -43,21 +45,21 @@ following:
 
 You will be evaluated on:
 
-1. Quality of build
+1. *Quality of build*
 * Is the build following Vue 3 conventions?
 * Is state management with Pinia being applied?
 * Have the core requirements been met (create, view and editing of tasks)?
 
-2. API integration
+2. *API integration*
 * Did you integrate the API endpoints?
 * Is authentication set up to allow user authentication and prevent exposure
-of secured data?
+of secure data?
 
-3. Code readability
+3. *Code readability*
 * Is the code clean and easy to understand?
 * Has linting/formatting been applied?
 
-4. Aesthetic
+4. *Aesthetic*
 * Is the layout reasonably clean?
 * Is the application intuitive to use without requiring in-depth instructions?
 
