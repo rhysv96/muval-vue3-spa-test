@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default function useApi() {
     return axios.create({
@@ -6,7 +6,7 @@ export default function useApi() {
         withCredentials: true,
         withXSRFToken: true,
         headers: {
-            'Accept': 'application/json',
+            Accept: 'application/json',
         },
     });
 }

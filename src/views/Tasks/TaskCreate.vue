@@ -16,19 +16,18 @@ const router = useRouter();
 const taskFormSchema = z.object({
     title: z.string().min(1).max(255),
     description: z.string().min(1).max(255),
-    status: z.enum([ 'pending', 'in_progress', 'complete' ]),
-    user: z.object({
-        id: z.string(),
-        name: z.string(),
-    }).optional(),
+    status: z.enum(['pending', 'in_progress', 'complete']),
+    user: z
+        .object({
+            id: z.string(),
+            name: z.string(),
+        })
+        .optional(),
 });
 
-const [zodPlugin, submitHandler] = createZodPlugin(
-    taskFormSchema,
-    async (formData) => {
-        await createTask(formData);
-    }
-)
+const [zodPlugin, submitHandler] = createZodPlugin(taskFormSchema, async (formData) => {
+    await createTask(formData);
+});
 
 // const onFormChange = (data: z.infer<typeof taskFormSchema>) => {
 const onFormChange = (data: z.infer<typeof taskFormSchema>) => {
@@ -36,7 +35,7 @@ const onFormChange = (data: z.infer<typeof taskFormSchema>) => {
     draftTaskStore.description = data.description;
     draftTaskStore.status = data.status;
     draftTaskStore.user = data.user ?? null;
-}
+};
 
 const createTask = (data: z.infer<typeof taskFormSchema>) => {
     const payload = {
@@ -44,7 +43,7 @@ const createTask = (data: z.infer<typeof taskFormSchema>) => {
         description: data.description,
         status: data.status,
         user_id: data.user?.id ?? null,
-    }
+    };
     return createTaskMutation.mutateAsync(payload, {
         onSuccess() {
             draftTaskStore.$reset();
@@ -52,7 +51,7 @@ const createTask = (data: z.infer<typeof taskFormSchema>) => {
             router.push('/tasks');
         },
     });
-}
+};
 </script>
 
 <template>
@@ -65,10 +64,20 @@ const createTask = (data: z.infer<typeof taskFormSchema>) => {
             @submit="submitHandler"
             submit-label="Create"
             :disabled="!whoami?.verified"
-            @input="(onFormChange as any)"
+            @input="onFormChange as any"
         >
-            <FormKit type="text" name="title" label="Title" :value="draftTaskStore.title" />
-            <FormKit type="textarea" name="description" label="Description" :value="draftTaskStore.description" />
+            <FormKit
+                type="text"
+                name="title"
+                label="Title"
+                :value="draftTaskStore.title"
+            />
+            <FormKit
+                type="textarea"
+                name="description"
+                label="Description"
+                :value="draftTaskStore.description"
+            />
             <FormKit
                 type="select"
                 name="status"
@@ -87,6 +96,5 @@ const createTask = (data: z.infer<typeof taskFormSchema>) => {
                 :value="draftTaskStore.user"
             />
         </FormKit>
-
     </div>
 </template>

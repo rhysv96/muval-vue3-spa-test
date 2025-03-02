@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { createZodPlugin } from '@formkit/zod';
 
 const loginMutation = useLoginMutation();
-const queryClient = useQueryClient()
+const queryClient = useQueryClient();
 const router = useRouter();
 
 const loginFormSchema = z.object({
@@ -14,12 +14,9 @@ const loginFormSchema = z.object({
     password: z.string().min(1),
 });
 
-const [zodPlugin, submitHandler] = createZodPlugin(
-    loginFormSchema,
-    async (formData) => {
-        await login(formData);
-    }
-)
+const [zodPlugin, submitHandler] = createZodPlugin(loginFormSchema, async (formData) => {
+    await login(formData);
+});
 
 const login = async (data: z.infer<typeof loginFormSchema>) => {
     loginMutation.mutate(data, {
@@ -27,9 +24,9 @@ const login = async (data: z.infer<typeof loginFormSchema>) => {
             queryClient.setQueryData(['whoami'], data);
             queryClient.invalidateQueries({ queryKey: ['whoami'] });
             router.push('/');
-        }
-    })
-}
+        },
+    });
+};
 </script>
 
 <template>
@@ -41,8 +38,16 @@ const login = async (data: z.infer<typeof loginFormSchema>) => {
             @submit="submitHandler"
             submit-label="Log in"
         >
-            <FormKit type="email" name="email" label="Email" />
-            <FormKit type="password" name="password" label="Password" />
+            <FormKit
+                type="email"
+                name="email"
+                label="Email"
+            />
+            <FormKit
+                type="password"
+                name="password"
+                label="Password"
+            />
         </FormKit>
     </div>
 </template>

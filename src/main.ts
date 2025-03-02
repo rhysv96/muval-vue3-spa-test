@@ -30,4 +30,3 @@ import axios from 'axios';
 
     app.mount('#app');
 })();
-

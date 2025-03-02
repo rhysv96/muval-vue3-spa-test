@@ -18,33 +18,35 @@ const queryClient = useQueryClient();
 const taskFormSchema = z.object({
     title: z.string().min(1).max(255),
     description: z.string().min(1).max(255),
-    status: z.enum([ 'pending', 'in_progress', 'complete' ]),
-    user: z.object({
-        id: z.string(),
-        name: z.string(),
-    }).nullable(),
+    status: z.enum(['pending', 'in_progress', 'complete']),
+    user: z
+        .object({
+            id: z.string(),
+            name: z.string(),
+        })
+        .nullable(),
 });
 
-const [zodPlugin, submitHandler] = createZodPlugin(
-    taskFormSchema,
-    async (formData) => {
-        await updateTask({
-            id,
-            title: formData.title,
-            description: formData.description,
-            status: formData.status,
-            user_id: formData.user?.id ?? null,
-        });
-    }
-)
-
-const updateTask = (data: typeof updateTaskMutation['variables']['value']) => {
-    return updateTaskMutation.mutateAsync({ id, ...data }, {
-        onSuccess() {
-            queryClient.invalidateQueries({ queryKey: ['task'] });
-        },
+const [zodPlugin, submitHandler] = createZodPlugin(taskFormSchema, async (formData) => {
+    await updateTask({
+        id,
+        title: formData.title,
+        description: formData.description,
+        status: formData.status,
+        user_id: formData.user?.id ?? null,
     });
-}
+});
+
+const updateTask = (data: (typeof updateTaskMutation)['variables']['value']) => {
+    return updateTaskMutation.mutateAsync(
+        { id, ...data },
+        {
+            onSuccess() {
+                queryClient.invalidateQueries({ queryKey: ['task'] });
+            },
+        },
+    );
+};
 </script>
 
 <template>
@@ -59,8 +61,18 @@ const updateTask = (data: typeof updateTaskMutation['variables']['value']) => {
             submit-label="Update"
             :disabled="!whoami?.verified"
         >
-            <FormKit type="text" name="title" label="Title" :value="data?.title" />
-            <FormKit type="textarea" name="description" label="Description" :value="data?.description" />
+            <FormKit
+                type="text"
+                name="title"
+                label="Title"
+                :value="data?.title"
+            />
+            <FormKit
+                type="textarea"
+                name="description"
+                label="Description"
+                :value="data?.description"
+            />
             <FormKit
                 type="select"
                 name="status"
@@ -79,6 +91,5 @@ const updateTask = (data: typeof updateTaskMutation['variables']['value']) => {
                 :value="data?.assignee"
             />
         </FormKit>
-
     </div>
 </template>

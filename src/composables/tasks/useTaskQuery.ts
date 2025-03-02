@@ -1,11 +1,11 @@
-import { useQuery } from "@tanstack/vue-query";
-import useApi from "../useApi";
-import type { AxiosInstance } from "axios";
-import type { Task } from "./useTasksQuery";
+import { useQuery } from '@tanstack/vue-query';
+import useApi from '../useApi';
+import type { AxiosInstance } from 'axios';
+import type { Task } from './useTasksQuery';
 
 type Request = {
-    id: string,
-}
+    id: string;
+};
 
 export const useTaskQuery = (request: Request) => {
     const api = useApi();
@@ -13,12 +13,14 @@ export const useTaskQuery = (request: Request) => {
     return useQuery({
         queryKey: ['task', request],
         queryFn: () => getTask(api, request),
-        enabled: !!request.id
+        enabled: !!request.id,
     });
-}
+};
 
 const getTask = async (api: AxiosInstance, request: Request): Promise<Task> => {
-    return (await api.get(`/api/tasks/${request.id}`, {
-        params: request,
-    })).data;
-}
+    return (
+        await api.get(`/api/tasks/${request.id}`, {
+            params: request,
+        })
+    ).data;
+};

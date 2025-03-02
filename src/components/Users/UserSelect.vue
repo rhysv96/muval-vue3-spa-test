@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { useUsersQuery, type User } from "@/composables/users/useUsersQuery";
-import type { FormKitFrameworkContext } from "@formkit/core";
-import { ref, watch } from "vue";
+import { useUsersQuery, type User } from '@/composables/users/useUsersQuery';
+import type { FormKitFrameworkContext } from '@formkit/core';
+import { ref, watch } from 'vue';
 // @ts-expect-error no types available
-import VueSelect from "vue-select";
+import VueSelect from 'vue-select';
 
 const props = defineProps<{
-    context: FormKitFrameworkContext,
-}>()
+    context: FormKitFrameworkContext;
+}>();
 
 const search = ref('');
 const { data } = useUsersQuery({ page: 1, per_page: 20, query: search });
@@ -15,24 +15,23 @@ const { data } = useUsersQuery({ page: 1, per_page: 20, query: search });
 const value = ref<User | null>(props.context._value);
 
 watch(value, (value) => {
-    props.context.node.input(value || null)
-})
+    props.context.node.input(value || null);
+});
 </script>
 
 <template>
     <div class="max-w-[20em]">
-        <div class="dark:text-white font-bold text-sm mb-1">{{ props.context.label }}</div>
+        <div class="mb-1 text-sm font-bold dark:text-white">{{ props.context.label }}</div>
         <VueSelect
             v-model="value"
-            class="shadow mb-4"
+            class="mb-4 shadow"
             label="name"
             :options="data?.data ?? []"
             :disabled="context.disabled"
-            @search="(query: string) => search = query"
+            @search="(query: string) => (search = query)"
         />
     </div>
 </template>
-
 
 <style scoped>
 @media (prefers-color-scheme: dark) {

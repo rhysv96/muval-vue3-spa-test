@@ -46,7 +46,11 @@ const sendEmailVerificationLink = () => {
                     class="text-xs dark:text-white"
                 >
                     Your email is not verified.
-                    <RouterLink to="#" @click="sendEmailVerificationLink">Verify now</RouterLink>
+                    <RouterLink
+                        to="#"
+                        @click="sendEmailVerificationLink"
+                        >Verify now</RouterLink
+                    >
                     to gain full access to the platform!
                 </div>
             </template>
@@ -56,7 +60,11 @@ const sendEmailVerificationLink = () => {
                 <RouterLink to="/about">About</RouterLink>
                 <template v-if="data">
                     <RouterLink to="/tasks">Tasks</RouterLink>
-                    <RouterLink to="/" @click="logout">Logout</RouterLink>
+                    <RouterLink
+                        to="/"
+                        @click="logout"
+                        >Logout</RouterLink
+                    >
                 </template>
                 <template v-else>
                     <RouterLink to="/login">Log in</RouterLink>

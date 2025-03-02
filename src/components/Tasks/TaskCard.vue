@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TrashIcon } from '@heroicons/vue/16/solid'
+import { TrashIcon } from '@heroicons/vue/16/solid';
 import type { Task } from '@/composables/tasks/useTasksQuery';
 import { computed, inject } from 'vue';
 import { useUpdateTaskMutation } from '@/composables/tasks/useUpdateTaskMutation';
@@ -10,8 +10,8 @@ import _ from 'lodash';
 import { useWhoAmIQuery } from '@/composables/auth/useWhoAmIQuery';
 
 const props = defineProps<{
-    task: Task,
-}>()
+    task: Task;
+}>();
 
 const { data: whoami } = useWhoAmIQuery();
 
@@ -23,23 +23,22 @@ const $dialog = inject(injectionKey);
 
 const task = computed(() => ({
     ...props.task,
-    ...((updateTaskMutation.isPending.value || queryClient.isFetching({ queryKey: ['tasks'] }))
-        ? _.pickBy(updateTaskMutation.variables.value)
-        : {}
-    ),
-}))
+    ...(updateTaskMutation.isPending.value || queryClient.isFetching({ queryKey: ['tasks'] }) ?
+        _.pickBy(updateTaskMutation.variables.value)
+    :   {}),
+}));
 
 const statuses = computed(() => {
     return [
         { label: 'Pending', value: 'pending', selected: task.value.status === 'pending' },
         { label: 'In progress', value: 'in_progress', selected: task.value.status === 'in_progress' },
         { label: 'Complete', value: 'complete', selected: task.value.status === 'complete' },
-    ]
-})
+    ];
+});
 
 const pending = computed(() => {
     return updateTaskMutation.isPending.value || deleteTaskMutation.isPending.value;
-})
+});
 
 const containerStatusStyles = computed(() => {
     const status = task.value.status;
@@ -56,52 +55,66 @@ const containerStatusStyles = computed(() => {
         return 'border-green-800 bg-green-100 dark:bg-green-950 dark:text-white';
     }
 
-    status satisfies never
+    status satisfies never;
 
     // runtime fallback
     return 'border-slate-800 bg-slate-100';
-})
+});
 
 const onTaskStatusChange = (task: Task, status: string) => {
-    updateTaskMutation.mutate({ id: task.id, status }, {
-        onSuccess() {
-            queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    updateTaskMutation.mutate(
+        { id: task.id, status },
+        {
+            onSuccess() {
+                queryClient.invalidateQueries({ queryKey: ['tasks'] });
+            },
         },
-    })
-}
+    );
+};
 
 const deleteTask = async (task: Task) => {
-    const result = await $dialog?.confirm({
-        title: `Are you sure you'd like to delete the task "${task.title}"?`,
-        body: "This action cannot be reversed!"
-    }, {
-        okText: 'Yes',
-        cancelText: 'Cancel',
-    });
+    const result = await $dialog?.confirm(
+        {
+            title: `Are you sure you'd like to delete the task "${task.title}"?`,
+            body: 'This action cannot be reversed!',
+        },
+        {
+            okText: 'Yes',
+            cancelText: 'Cancel',
+        },
+    );
 
     if (result?.canceled) {
         return;
     }
 
-    deleteTaskMutation.mutate({ id: task.id }, {
-        onSuccess() {
-            queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    deleteTaskMutation.mutate(
+        { id: task.id },
+        {
+            onSuccess() {
+                queryClient.invalidateQueries({ queryKey: ['tasks'] });
+            },
         },
-    })
-}
+    );
+};
 </script>
 
 <template>
     <RouterLink
         :to="`/tasks/${task.id}`"
-        class="flex flex-col gap-2 border rounded-md p-4 m-2 shadow text-black hover:no-underline"
-        :class="[ containerStatusStyles, { 'opacity-75': pending } ]"
+        class="m-2 flex flex-col gap-2 rounded-md border p-4 text-black shadow hover:no-underline"
+        :class="[containerStatusStyles, { 'opacity-75': pending }]"
     >
         <div class="flex items-center gap-1">
-            <div class="flex-grow font-bold truncate" :title="task.title">{{ task.title }}</div>
-            <div class="flex gap-1 items-center">
+            <div
+                class="flex-grow truncate font-bold"
+                :title="task.title"
+            >
+                {{ task.title }}
+            </div>
+            <div class="flex items-center gap-1">
                 <select
-                    class="text-sm appearance-none p-0.5 border border-black opacity-75 bg-white text-black rounded cursor-pointer"
+                    class="cursor-pointer appearance-none rounded border border-black bg-white p-0.5 text-sm text-black opacity-75"
                     @change="onTaskStatusChange(task, ($event.target as HTMLSelectElement).value)"
                     @click.stop.prevent="() => {}"
                     :disabled="pending || !whoami?.verified"
@@ -117,15 +130,25 @@ const deleteTask = async (task: Task) => {
                 </select>
                 <TrashIcon
                     v-if="whoami?.verified"
-                    class="w-4 h-4 text-red-800 cursor-pointer"
+                    class="h-4 w-4 cursor-pointer text-red-800"
                     @click.stop.prevent="deleteTask(task)"
                 />
             </div>
         </div>
 
-        <p class="text-sm h-20 line-clamp-4">{{ task.description }}</p>
+        <p class="line-clamp-4 h-20 text-sm">{{ task.description }}</p>
 
-        <p v-if="task.assignee" class="text-sm italic">Assigned to <span class="font-bold">{{ task.assignee.name }}</span></p>
-        <p v-else class="text-sm italic">Unassigned</p>
+        <p
+            v-if="task.assignee"
+            class="text-sm italic"
+        >
+            Assigned to <span class="font-bold">{{ task.assignee.name }}</span>
+        </p>
+        <p
+            v-else
+            class="text-sm italic"
+        >
+            Unassigned
+        </p>
     </RouterLink>
 </template>

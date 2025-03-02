@@ -24,9 +24,9 @@ const navigateToUrl = (urlString: string | null) => {
     router.push({
         query: {
             page: page.value,
-        }
+        },
     });
-}
+};
 </script>
 
 <template>
@@ -42,9 +42,13 @@ const navigateToUrl = (urlString: string | null) => {
         </div>
         <div
             v-if="data"
-            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-screen-xl mt-8"
+            class="mt-8 grid max-w-screen-xl grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
         >
-            <TaskCard v-for="task of data.data" :key="task.id" :task="task" />
+            <TaskCard
+                v-for="task of data.data"
+                :key="task.id"
+                :task="task"
+            />
         </div>
 
         <div class="flex gap-2">
