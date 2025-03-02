@@ -15,6 +15,7 @@ type Request = {
     title: string,
     description: string,
     status: string,
+    user_id: string | null,
 }
 
 const createTask = async (api: AxiosInstance, request: Request): Promise<Task> => {

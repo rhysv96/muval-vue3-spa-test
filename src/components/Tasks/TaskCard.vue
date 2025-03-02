@@ -125,7 +125,7 @@ const deleteTask = async (task: Task) => {
 
         <p class="text-sm h-20 line-clamp-4">{{ task.description }}</p>
 
-        <p v-if="task.assignee" class="text-sm">{{ task.assignee.name }}</p>
+        <p v-if="task.assignee" class="text-sm italic">Assigned to <span class="font-bold">{{ task.assignee.name }}</span></p>
         <p v-else class="text-sm italic">Unassigned</p>
     </RouterLink>
 </template>

@@ -33,7 +33,7 @@ const [zodPlugin, submitHandler] = createZodPlugin(
             title: formData.title,
             description: formData.description,
             status: formData.status,
-            user_id: formData.user?.id,
+            user_id: formData.user?.id ?? null,
         });
     }
 )

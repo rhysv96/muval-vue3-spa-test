@@ -27,6 +27,7 @@ watch(value, (value) => {
             class="shadow mb-4"
             label="name"
             :options="data?.data ?? []"
+            :disabled="context.disabled"
             @search="(query: string) => search = query"
         />
     </div>
@@ -36,6 +37,7 @@ watch(value, (value) => {
 <style scoped>
 @media (prefers-color-scheme: dark) {
     >>> {
+        --vs-disabled-bg: rgba(0, 0, 0, 0);
         --vs-controls-color: rgb(115, 115, 115);
         --vs-border-color: rgb(115, 115, 115);
 
