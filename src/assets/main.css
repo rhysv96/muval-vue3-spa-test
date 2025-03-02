@@ -31,5 +31,5 @@ pre {
 }
 
 #app {
-    @apply m-5;
+    @apply p-5 dark:bg-gray-950 min-h-screen;
 }

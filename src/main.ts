@@ -2,13 +2,32 @@ import './assets/main.css';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
+import { VueQueryPlugin } from '@tanstack/vue-query';
+import * as FormKit from '@formkit/vue';
+import formkitConfig from './formkit/formkit.config';
+import VuejsDialog from 'vuejs-dialog';
+import 'vuejs-dialog/dist/vuejs-dialog.min.css';
+import 'vue-select/dist/vue-select.css';
 
 import App from './App.vue';
 import router from './router';
+import axios from 'axios';
 
-const app = createApp(App);
+(async () => {
+    await axios({
+        method: 'GET',
+        baseURL: import.meta.env.VITE_API_URL,
+        url: '/sanctum/csrf-cookie',
+    });
 
-app.use(createPinia());
-app.use(router);
+    const app = createApp(App);
 
-app.mount('#app');
+    app.use(createPinia());
+    app.use(VueQueryPlugin);
+    app.use(VuejsDialog);
+    app.use(router);
+    app.use(FormKit.plugin, FormKit.defaultConfig(formkitConfig));
+
+    app.mount('#app');
+})();
+

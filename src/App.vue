@@ -1,24 +1,19 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterView } from 'vue-router';
+import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
+import AppNav from './components/Base/AppNav.vue';
+
+const showVueQueryDevTools = import.meta.env.DEV;
 </script>
 
 <template>
-    <header>
-        <div class="my-5">
-            <h1 class="mb-2 text-2xl">Your new app</h1>
-
-            <nav>
-                <RouterLink to="/">Home</RouterLink>
-                <RouterLink to="/about">About</RouterLink>
-            </nav>
-        </div>
-
-        <hr />
-    </header>
+    <AppNav />
 
     <div class="mt-5">
         <RouterView />
     </div>
+
+    <VueQueryDevtools v-if="showVueQueryDevTools" />
 </template>
 
 <style scoped>

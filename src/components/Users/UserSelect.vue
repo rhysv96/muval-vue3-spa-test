@@ -1,0 +1,55 @@
+<script setup lang="ts">
+import { useUsersQuery, type User } from "@/composables/users/useUsersQuery";
+import type { FormKitFrameworkContext } from "@formkit/core";
+import { ref, watch } from "vue";
+// @ts-expect-error no types available
+import VueSelect from "vue-select";
+
+const props = defineProps<{
+    context: FormKitFrameworkContext,
+}>()
+
+const search = ref('');
+const { data } = useUsersQuery({ page: 1, per_page: 20, query: search });
+
+const value = ref<User | null>(props.context._value);
+
+watch(value, (value) => {
+    props.context.node.input(value || null)
+})
+</script>
+
+<template>
+    <div class="max-w-[20em]">
+        <div class="dark:text-white font-bold text-sm mb-1">{{ props.context.label }}</div>
+        <VueSelect
+            v-model="value"
+            class="shadow mb-4"
+            label="name"
+            :options="data?.data ?? []"
+            @search="(query: string) => search = query"
+        />
+    </div>
+</template>
+
+
+<style scoped>
+@media (prefers-color-scheme: dark) {
+    >>> {
+        --vs-controls-color: rgb(115, 115, 115);
+        --vs-border-color: rgb(115, 115, 115);
+
+        --vs-dropdown-bg: #282c34;
+        --vs-dropdown-color: #cc99cd;
+        --vs-dropdown-option-color: #ffffff;
+
+        --vs-selected-bg: #664cc3;
+        --vs-selected-color: #eeeeee;
+
+        --vs-search-input-color: #eeeeee;
+
+        --vs-dropdown-option--active-bg: #664cc3;
+        --vs-dropdown-option--active-color: #eeeeee;
+    }
+}
+</style>
