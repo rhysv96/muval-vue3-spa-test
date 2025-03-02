@@ -40,10 +40,6 @@ const register = async (data: z.infer<typeof registerFormSchema>) => {
         }
     })
 }
-
-const name = `Test ${Math.floor(Math.random() * 10000)}`;
-const email = `test.${Math.floor(Math.random() * 10000)}@example.com`;
-const password = `testtest${Math.floor(Math.random() * 10000)}`;
 </script>
 
 <template>
@@ -55,10 +51,10 @@ const password = `testtest${Math.floor(Math.random() * 10000)}`;
             @submit="submitHandler"
             submit-label="Register"
         >
-            <FormKit type="text" name="name" label="Name" :value="name"/>
-            <FormKit type="email" name="email" label="Email" :value="email"/>
-            <FormKit type="password" name="password" label="Password" :value="password"/>
-            <FormKit type="password" name="password_confirmation" label="Confirm password" :value="password"/>
+            <FormKit type="text" name="name" label="Name" />
+            <FormKit type="email" name="email" label="Email" />
+            <FormKit type="password" name="password" label="Password" />
+            <FormKit type="password" name="password_confirmation" label="Confirm password" />
         </FormKit>
     </div>
 </template>
